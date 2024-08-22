@@ -23,7 +23,6 @@ export const login = createAsyncThunk(
                 throw new Error(data.error_description || 'Something went wrong');
             }
 
-         
             localStorage.setItem('authToken', data.access_token);
 
             return data;

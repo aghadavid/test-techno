@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchHomeData = createAsyncThunk(
-    'home/fetchHomeData',
+export const fetchMenuSlice = createAsyncThunk(
+    'menu/fetchMenuSlice',
     async (_, { rejectWithValue, getState }) => {
         const state = getState();
         const token = state.auth.token;
@@ -11,8 +11,8 @@ export const fetchHomeData = createAsyncThunk(
         }
 
         try {
-            const response = await fetch('https://soal.staging.id/api/home', {
-                method: 'GET',
+            const response = await fetch('https://soal.staging.id/api/menu', {
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -30,8 +30,8 @@ export const fetchHomeData = createAsyncThunk(
     }
 );
 
-const homeSlice = createSlice({
-    name: 'home',
+const menuSlice = createSlice({
+    name: 'menu',
     initialState: {
         data: null,
         loading: false,
@@ -40,19 +40,19 @@ const homeSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchHomeData.pending, (state) => {
+            .addCase(fetchMenuSlice.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchHomeData.fulfilled, (state, action) => {
+            .addCase(fetchMenuSlice.fulfilled, (state, action) => {
                 state.loading = false;
                 state.data = action.payload;
             })
-            .addCase(fetchHomeData.rejected, (state, action) => {
+            .addCase(fetchMenuSlice.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
     }
 });
 
-export default homeSlice.reducer;
+export default menuSlice.reducer;
